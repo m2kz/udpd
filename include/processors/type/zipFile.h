@@ -8,12 +8,13 @@ public:
 };
 
 class ZipFile : public FileProcessor<ZipFileBase> {
-    private:
-        AnalyseResult<ZipFileBase> result = {};
-        ProcessError<ZipFileBase> error;
     public:
-        using error_t = int;
+        using AnalyseResultType = AnalyseResult<ZipFileBase>;
+        using ProcessErrorType = ProcessError<ZipFileBase>;
         ZipFile(std::string path) : FileProcessor(path) {};
-        virtual std::variant<AnalyseResult<ZipFileBase>, ProcessError<ZipFileBase>> getInfo();
+        virtual std::variant<AnalyseResultType, ProcessErrorType> getInfo();
         ~ZipFile() = default;
+    private:
+        AnalyseResultType result = {};
+        ProcessErrorType error;
 };

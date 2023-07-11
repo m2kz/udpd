@@ -2,7 +2,10 @@
 #include <iostream>
 #include "processors/type/zipFile.h"
 
-std::variant<AnalyseResult<ZipFileBase>, ProcessError<ZipFileBase>> ZipFile::getInfo() {
+using AnalyseResultType = ZipFile::AnalyseResultType;
+using ProcessErrorType = ZipFile::ProcessErrorType;
+
+std::variant<AnalyseResultType, ProcessErrorType> ZipFile::getInfo() {
     int err = 0;
     const auto& fileHandler = zip_open(this->getFilePathString().c_str(), 0, &err);
     // Check if it was opened successfully
@@ -12,7 +15,7 @@ std::variant<AnalyseResult<ZipFileBase>, ProcessError<ZipFileBase>> ZipFile::get
         zip_error_init_with_code(&ziperror, err);
         int zip_err = zip_error_code_zip(&ziperror);
         int sys_err = zip_error_code_system(&ziperror);
-        return ProcessError<ZipFileBase>(zip_err);
+        return ProcessErrorType(zip_err);
     }
 
     zip_int64_t num_entries = zip_get_num_entries(fileHandler, 0);
@@ -20,5 +23,5 @@ std::variant<AnalyseResult<ZipFileBase>, ProcessError<ZipFileBase>> ZipFile::get
 
     zip_close(fileHandler);
 
-    return AnalyseResult<ZipFileBase>();
+    return AnalyseResultType();
 }
