@@ -1,10 +1,15 @@
 #include <archive.h>
 #include "processors/interface.h"
 
-class TarFile : public FileProcessor<TarFile> {
+class TarFileBase : public FileBase {
+public:
+    using error_t = int;
+};
 
+class TarFile : public FileProcessor<TarFileBase> {
+    private:
     public:
-        TarFile(std::string path) : FileProcessor<TarFile>(path) {};
-        std::variant<AnalyseResult<TarFile>, ProcessError<TarFile, int>> getInfo();
+        TarFile(std::string path) : FileProcessor<TarFileBase>(path) {};
+        std::variant<AnalyseResult<TarFileBase>, ProcessError<TarFileBase>> getInfo();
         ~TarFile() = default;
 };

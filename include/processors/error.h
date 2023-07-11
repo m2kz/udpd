@@ -1,7 +1,8 @@
-template <typename T, typename S>
+template <typename T>
 class ProcessError {
     private:
-        S errorCode = {};
+        const typename T::error_t errorVal = {};
     public:
-        ProcessError(S errorCode) : errorCode(errorCode) {}
+        ProcessError() = default;
+        ProcessError(typename T::error_t errorVal) : errorVal(errorVal) {};
 };

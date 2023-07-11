@@ -1,7 +1,7 @@
 #include <archive_entry.h>
 #include "processors/type/tarFile.h"
 
-std::variant<AnalyseResult<TarFile>, ProcessError<TarFile, int>> TarFile::getInfo() {
+std::variant<AnalyseResult<TarFileBase>, ProcessError<TarFileBase>> TarFile::getInfo() {
     struct archive *archiveFile;
     struct archive_entry *entry;
     int result;
@@ -12,7 +12,7 @@ std::variant<AnalyseResult<TarFile>, ProcessError<TarFile, int>> TarFile::getInf
     const size_t fileSize = 10240;
     result = archive_read_open_filename(archiveFile, this->getFilePathString().c_str(), fileSize);
     if (result != ARCHIVE_OK) {
-        return ProcessError<TarFile, int>(result);
+        return ProcessError<TarFileBase>(result);
     }
 
     while (archive_read_next_header(archiveFile, &entry) == ARCHIVE_OK) {
@@ -22,8 +22,8 @@ std::variant<AnalyseResult<TarFile>, ProcessError<TarFile, int>> TarFile::getInf
 
     result = archive_read_free(archiveFile);
     if (result != ARCHIVE_OK) {
-        return ProcessError<TarFile, int>(result);
+        return ProcessError<TarFileBase>(result);
     }
 
-    return AnalyseResult<TarFile>();
+    return AnalyseResult<TarFileBase>();
 }
