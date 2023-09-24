@@ -3,8 +3,9 @@ cmake_minimum_required(VERSION 3.27)
 
 # Project's name
 project(udpd)
+enable_testing()
 
-set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/conan/conan_toolchain.cmake)
+find_package(spdlog REQUIRED)
 find_library(LIBMAGIC magic)
 if (NOT LIBMAGIC)
     message(FATAL_ERROR "libmagic not found")

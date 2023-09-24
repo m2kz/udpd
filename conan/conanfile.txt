@@ -1,8 +1,0 @@
-[requires]
-boost/1.82.0
-libzip/1.9.2
-libarchive/3.6.2
-
-[generators]
-CMakeToolchain
-CMakeDeps
